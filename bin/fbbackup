@@ -5,31 +5,46 @@
 # Backups are taken with `gbak` and stored into ${fbBackupDir}.
 # Spaces in database filenames are not supported.
 
-# Uncomment the line below for dry-run operation
-echo=echo
+myName=$(basename $(readlink -f "${0}"))
+[ "${myName}" = "${0}" -a ! -f "${myName}" ] && {
+	echo "Cannot reliably determine my name, aborting">&2
+	exit 1
+}
+myDir=$(dirname $(readlink -f "${0}"))
+myConfig=$(readlink -f "${myDir}/../etc/${myName}.conf")
+
+while getopts ":c:" Option
+do
+	case $Option in
+		c)
+			myConfig="${OPTARG}"
+			[ -r "${myConfig}" ] || {
+				echo "Cannot find config file at ${myConfig}, aborting">&2
+				exit 1
+			}
+		;;
+		\:)
+			echo "Option -${OPTARG} requires an argument, aborting">&2
+			exit 1
+		;;
+		*)
+			echo "Unknown option -${OPTARG}, aborting">&2
+			exit 1
+		;;
+	esac
+done
+
+shift $(($OPTIND - 1))
 
 fbAliases=/etc/firebird/aliases.conf
 fbBackupDir=/var/lib/firebird/backup/$(date +%F)
-
-# Comment or set to empty value for not to back up security2.fdb
 fbSecurityBase=/var/lib/firebird/system/security2.fdb
-# Do not back up those matching the line below (passed to `grep -v`, must begin
-# with -e). For example, to prevent backing up aliases "alice" and "bob", do the
-# following:
-#fbExclude='-e ^alice\> -e ^bob\>'
-fbExclude='-e ^blobdb\>'
 
 # See the allowed options at
 # http://www.firebirdsql.org/file/documentation/reference_manuals/user_manuals/html/gbak-cmdline.html#gbak-cmdline-backup
 fbBackupOpts=-t
-# By default system root user is mapped to sysdba. If this script is not running
-# as root, uncomment and properly set the vars below
-#ISC_USER=
-#ISC_PASSWORD=
-# Backup compression command (if defined, invoked for each backup file)
-#compressCmd="bzip2 -9"
-noChown=1
-#noChmod=1
+
+[ -r "${myConfig}" ] && . "${myConfig}" || echo "Cannot find config file at ${myConfig}, falling back to built-in defaults">&2
 
 for db in ${fbSecurityBase} $(grep -ve '^$' -e '^#' ${fbExclude} ${fbAliases} | cut -d ' ' -f 3) ; do
 	[ -f ${db} ] || continue
