@@ -1,0 +1,7 @@
+# Copy this to /etc/cron.d
+# Adjust the schedule as you like
+
+# Run ffbackup with default config at 17:30 every day except Friday
+#30 17 * * 0-4,6 root /usr/local/bin/fbbackup
+# Run ffbackup with custom config at 17:30 on Friday
+#30 17 * * 5 root /usr/local/bin/fbbackup -c /usr/local/etc/fbbackup.custom.conf
