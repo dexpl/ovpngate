@@ -9,7 +9,8 @@ fbAliases=/etc/firebird/aliases.conf
 fbBackupDir=/var/lib/firebird/backup/$(date +%F)
 fbSecurityBase=/var/lib/firebird/system/security2.fdb
 fbBackupOpts=-t
-# If your SYSDBA and/or his password are not default give'em here
+# By default system root user is mapped to sysdba. If this script is not running
+# as root, uncomment and properly set the vars below
 #ISC_USER=
 #ISC_PASSWORD=
 # Backup compression command (invoked if defined)
@@ -22,3 +23,9 @@ for db in ${fbSecurityBase} $(grep -ve '^$' -e '^#' ${fbAliases} | cut -d ' ' -f
 	gbak -b ${db} "${dbBak}" ${fbBackupOpts}
 	[ -f "${dbBak}" -a -n "${compressCmd}" ] && ${compressCmd} ${dbBak}
 done
+
+# Secure the backup
+[ -d "${fbBackupDir}" ] && {
+	chown -R firebird:firebird "${fbBackupDir}"
+	chmod -R ug=rwX "${fbBackupDir}
+}
