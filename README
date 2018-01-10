@@ -3,3 +3,4 @@ Miscellaneous scripts:
 fbbackup	Firebird database backup
 dwhois.awk	Dummy whois client on awk
 freshcureit	Fresh DrWeb CureIt .iso downloader
+flac2flac.sh	Splits flac+cue (wav+cue, iso+cue, etc.) on flac tracks
