@@ -6,7 +6,7 @@ outputDir=/srv/distr/os/livespecial/cureit
 curdate=$(date +%F.%s)
 isoname="${outputDir}/cureit.${curdate}.iso"
 logfile="${outputDir}/cureit.${curdate}.log"
-wgetopts="-o ${logfile} -O ${isoname} ${livecdUrl} -t0"
+wgetopts="-o '${logfile}' -O '${isoname}' ${livecdUrl} -t0"
 
 [ -d "${outputDir}" ] || mkdir -pv "${outputDir}" || exit 1
 ${wget} ${wgetopts}
