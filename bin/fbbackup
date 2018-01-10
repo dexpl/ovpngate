@@ -51,7 +51,7 @@ for db in ${fbSecurityBase} $(grep -ve '^$' -e '^#' ${fbExclude} ${fbAliases} | 
 	[ -d "${fbBackupDir}" ] || ${echo} mkdir "${fbBackupDir}"
 	dbBak="${fbBackupDir}/$(basename ${db})".bak
 	${echo} gbak -b ${db} "${dbBak}" ${fbBackupOpts}
-	[ -f "${dbBak}" -a -n "${compressCmd}" ] && ${compressCmd} ${dbBak}
+	[ -f "${dbBak}" -a -n "${compressCmd}" ] && ${compressCmd} "${dbBak}"
 done
 
 # Secure the backup
