@@ -2,4 +2,4 @@ Miscellaneous scripts:
 
 fbbackup	Firebird database backup
 dwhois.awk	Dummy whois client on awk
-freshcureit	Fresh DrWeb CureIt is downloader
+freshcureit	Fresh DrWeb CureIt .iso downloader
