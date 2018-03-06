@@ -28,6 +28,8 @@
 # Undefined by default
 compressCmd="bzip2 -9"
 
+# Uncomment to do a test restore into a temp. database right after backing up
+#testRestore=1
 # Uncomment not to chown the result to firebird:firebird
 #noChown=1
 # Uncomment not to chmod the result to 660

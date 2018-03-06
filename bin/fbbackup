@@ -13,7 +13,7 @@ myName=$(basename $(readlink -f "${0}"))
 myDir=$(dirname $(readlink -f "${0}"))
 myConfig=$(readlink -f "${myDir}/../etc/${myName}.conf")
 
-while getopts ":c:" Option
+while getopts ":c:t" Option
 do
 	case $Option in
 		c)
@@ -23,6 +23,7 @@ do
 				exit 1
 			}
 		;;
+		t) testRestore="1" ;;
 		\:)
 			echo "Option -${OPTARG} requires an argument, aborting">&2
 			exit 1
@@ -51,7 +52,13 @@ for db in ${fbSecurityBase} $(grep -ve '^$' -e '^#' ${fbExclude} ${fbAliases} | 
 	[ -d "${fbBackupDir}" ] || ${echo} mkdir "${fbBackupDir}"
 	dbBak="${fbBackupDir}/$(basename ${db})".bak
 	${echo} gbak -b ${db} "${dbBak}" ${fbBackupOpts}
-	[ -f "${dbBak}" -a -n "${compressCmd}" ] && ${compressCmd} ${dbBak}
+	[ -f "${dbBak}" ] && {
+		[ -n "${testRestore}" -a "${db}" != "${fbSecurityBase}" ] && {
+			testRestoreDB="${TMPDIR:-/tmp}/$(basename "${dbBak}" .bak).testrestore"
+			${echo} gbak -c "${dbBak}" "${testRestoreDB}" && rm -f "${testRestoreDB}"
+		}
+		[ -n "${compressCmd}" ] && ${compressCmd} ${dbBak}
+	}
 done
 
 # Secure the backup
