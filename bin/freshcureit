@@ -6,48 +6,9 @@ outputDir=/srv/distr/os/livespecial/cureit
 curdate=$(date +%F.%s)
 isoname="${outputDir}/cureit.${curdate}.iso"
 logfile="${outputDir}/cureit.${curdate}.log"
-wgetopts="-o ${logfile} -O ${isoname} ${livecdUrl} -t0"
+wgetopts="-o '${logfile}' -O '${isoname}' ${livecdUrl} -t0"
 
-[ -d "${outputDir}" ] || mkdir -p "${outputDir}"
+[ -d "${outputDir}" ] || mkdir -pv "${outputDir}" || exit 1
 ${wget} ${wgetopts}
 ln -f "${isoname}" "${outputDir}/cureit-latest.iso"
 find "${outputDir}" -mindepth 1 -ctime +6 -type f -delete
-exit
-
-FTP_BIN=lftp
-
-CUREIT_SRV=download.geo.drweb.com
-CUREIT_PATH=/pub/drweb/cureit
-OUTPUT_DIR=/srv/distr/utils/av/drweb/cureit
-
-CURRENT_DATE=$(date +%F)
-CURRENT_DDATE=$(date +%Y%m%n)
-# Race condition at midnight
-REMOTE_NAME=cureit.exe
-OUTPUT_NAME="cureit-$CURRENT_DATE"
-
-ERROR_LOG="$OUTPUT_DIR/$OUTPUT_NAME.log"
-
-exec 2>"$ERROR_LOG"
-
-[ -d "$OUTPUT_DIR" -a -w "$OUTPUT_DIR" ] || {
-	echo Error: cannot write to $OUTPUT_DIR >&2
-	exit 1
-}
-
-which $FTP_BIN > /dev/null || exit 2
-
-OUTPUT_FULLNAME="$OUTPUT_DIR/$OUTPUT_NAME.exe"
-
-ls "$OUTPUT_FULLNAME"
-[ -s "$OUTPUT_FULLNAME" ] && {
-	echo Error: non-empty "$OUTPUT_FULLNAME" already exists
-	exit 3
-} >&2
-
-CUREIT_DIR=$($FTP_BIN -c 'open ftp://'$CUREIT_SRV$CUREIT_PATH' && ls '$CURRENT_DDATE'*' | awk '/^d/ { DIR = $NF } ; END { print DIR }')
-echo $FTP_BIN -c 'get ftp://'$CUREIT_SRV$CUREIT_PATH/$CUREIT_DIR/$REMOTE_NAME -o "$OUTPUT_FULLNAME"
-$FTP_BIN -c get ftp://$CUREIT_SRV$CUREIT_PATH/$CUREIT_DIR/$REMOTE_NAME -o "$OUTPUT_FULLNAME"
-# # Super dirty hack
-# http_proxy=http://proxy:3128/
-# wget -ct0 -O --proxy-username=ggv --proxy-password=ggv3 "$OUTPUT_FULLNAME" -o "$OUTPUT_FULLNAME".log

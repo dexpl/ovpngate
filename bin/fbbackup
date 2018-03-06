@@ -59,6 +59,7 @@ for db in ${fbSecurityBase} $(grep -ve '^$' -e '^#' ${fbExclude} ${fbAliases} | 
 		}
 		[ -n "${compressCmd}" ] && ${compressCmd} ${dbBak}
 	}
+	[ -f "${dbBak}" -a -n "${compressCmd}" ] && ${compressCmd} "${dbBak}"
 done
 
 # Secure the backup
