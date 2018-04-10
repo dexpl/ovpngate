@@ -4,3 +4,5 @@ fbbackup	Firebird database backup
 dwhois.awk	Dummy whois client on awk
 freshcureit	Fresh DrWeb CureIt .iso downloader
 cue2flacs	Splits flac+cue (wav+cue, iso+cue, etc.) on flac tracks
+getvpngateconfs.sh	Fetches openvpn configs from vpngate.net for given country into given directory
+vpngate.sh	Pre-configures openvpn-client@vpngate.service with what's fetched by getvpngateconfs.sh. See also systemd/system/openvpn-client@vpngate.service.d/override.conf
