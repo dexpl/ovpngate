@@ -6,4 +6,4 @@ curl -s http://www.vpngate.net/api/iphone/ | awk -F , -vco=${country} '$7 == tou
 # Try to check whether remote servers actually reside in given country and eliminate those which don't
 # TODO haven't thoroughly tested
 which geoiplookup || exit
-awk '$1 == "remote" { print(FILENAME, $2) }' "${confDir}/vpngate*.conf | while read file ip ; do geoiplookup ${ip} | grep -iqwe "${country}" || rm -f ${file} ; done
+awk '$1 == "remote" { print(FILENAME, $2) }' "${confDir}/vpngate*.conf" | while read file ip ; do geoiplookup ${ip} | grep -iqwe "${country}" || rm -f ${file} ; done
