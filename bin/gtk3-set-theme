@@ -10,7 +10,7 @@ themeIni="${settingsIni}.${themeName}"
 current="$(readlink -f "${settingsIni}")"
 
 show_current () {
-	echo ${current##*.}
+	[ -f "${current}" ] && echo ${current##*.} || echo Default
 }
 
 set_theme () {
@@ -48,7 +48,7 @@ _EOF
 
 ls_themes () {
 	themeDirs="/usr/share/themes ${HOME}/.themes"
-	find -L ${themeDirs} -name gtk-3.0 -type d | awk -F / '{ print($(NF-1)) }' | sort | ${PAGER:-more}
+	find -L ${themeDirs} -name gtk-3.* -type d | awk -F / '{ print($(NF-1)) }' | sort -u | ${PAGER:-more}
 }
 
 while getopts ":d:hlps" opt
