@@ -17,7 +17,8 @@ map {
     map {
         my $node = $_;
         my @val = map { $node->findvalue("$_/text()") } ( 'expan', 'comment' );
-        print @{ [ $val[0] . ( $val[1] ? " /* $val[1] */" : '' ) ] };
+        $val[1] = "/* ${val[1]} */" if $val[1];
+        print "@val";
     } XML::XPath->new( xml => get("$url$_") || '<e></e>' )->findnodes($acro)
       ;    # <e></e> is just en empty valid xml
     $counter++;
