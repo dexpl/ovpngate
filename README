@@ -2,6 +2,7 @@ Miscellaneous scripts:
 
 fbbackup	Firebird database backup
 dwhois.awk	Dummy whois client on awk
+fib.pl Fibonacci calculator. Due to its intended inoptimality it's actually a CPU stress-tester.
 freshcureit	Fresh DrWeb CureIt .iso downloader
 cue2flacs	Splits flac+cue (wav+cue, iso+cue, etc.) on flac tracks
 getvpngateconfs.sh	Fetches openvpn configs from vpngate.net for given country into given directory
