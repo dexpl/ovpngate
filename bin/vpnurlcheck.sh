@@ -2,4 +2,4 @@
 
 urlList="${1:-urllist.txt}"
 
-[ -s "${urlList}" ] && wget -A /dev/null -i "${urlList}" -q
+[ -s "${urlList}" ] && wget -i "${urlList}" -q --spider
