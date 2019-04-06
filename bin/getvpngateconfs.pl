@@ -17,7 +17,6 @@ use strict;
 use warnings;
 
 use File::Spec::Functions;
-use File::Temp qw(tempdir);
 use LWP::Simple;
 use MIME::Base64;
 
@@ -32,13 +31,13 @@ my $countries = shift // '';
 my $outputDir = canonpath shift;
 
 die "$countries is not a valid country code list"
-  unless $countries =~ /^!?(?:[a-z]{2}(?:,[a-z]{2})*),?$/;
+  unless $countries =~ /^!?(?:[a-z]{2},?)+$/;
 
 # If no output dir is given set it to vpngate-${countries}
 $outputDir = $outputDirPrefix . ( $countries ? "-$countries" : '' )
   unless $outputDir;
 
-# Consider the first arg a list of countries to exclude if it begins with ! (i.
+# Consider $countries a list of countries to exclude if it begins with ! (i.
 # e. !us,jp,kr)
 my $excludeCountries = $countries ? $countries =~ s/^!// : 0;
 my %countries = map { $_ => 1 if $_ } split ',', $countries;
