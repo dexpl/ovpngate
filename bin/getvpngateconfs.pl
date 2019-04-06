@@ -28,14 +28,13 @@ my $countries = shift // '';
 # Consider the second arg a directory to put fetched configs into
 my $confdir = canonpath shift;
 
+die "$countries is not a valid country code list"
+  unless $countries =~ /^!?(?:[a-z]{2}(?:,[a-z]{2})*),?$/;
+
 # Consider the first arg a list of countries to exclude if it begins with ! (i.
 # e. !us,jp,kr)
 my $excludeCountries = $countries ? $countries =~ s/^!// : 0;
 my %countries = map { $_ => 1 if $_ } split ',', $countries;
-
-# Emit a warning if $countries is the sole '!'
-warn 'An empty exclusion list excludes nothing!'
-  if $excludeCountries && !$countries;
 
 if ($confdir) {
     mkdir $confdir
