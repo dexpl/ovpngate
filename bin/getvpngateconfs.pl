@@ -30,8 +30,10 @@ my $countries = shift // '';
 # Consider the second arg a directory to put fetched configs into
 my $outputDir = canonpath shift;
 
-die "$countries is not a valid country code list"
-  unless $countries =~ /^!?(?:[a-z]{2},?)+$/;
+if ($countries) {
+    die "$countries is not a valid country code list"
+      unless $countries =~ /^!?(?:[a-z]{2},?)+$/;
+}
 
 # If no output dir is given set it to vpngate-${countries}
 $outputDir = $outputDirPrefix . ( $countries ? "-$countries" : '' )
