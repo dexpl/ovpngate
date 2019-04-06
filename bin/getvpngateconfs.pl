@@ -1,4 +1,4 @@
-#!/usr/bin/perl -CS -l
+#!/usr/bin/perl -C -l
 
 # Fetches OpenVPN configs from vpngate.net
 #
@@ -23,7 +23,7 @@ my $vpnGateApiUrl = 'http://www.vpngate.net/api/iphone/';
 
 # Consider the first arg a list of country codes separated by comma (i. e.
 # us,jp,kr)
-my $countries = shift;
+my $countries = shift // '';
 
 # Consider the second arg a directory to put fetched configs into
 my $confdir = canonpath shift;
