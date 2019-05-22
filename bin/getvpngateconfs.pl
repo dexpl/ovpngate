@@ -36,8 +36,7 @@ if ($countries) {
 }
 
 # If no output dir is given set it to vpngate-${countries}
-$outputDir = $outputDirPrefix . ( $countries ? "-$countries" : '' )
-  unless $outputDir;
+$outputDir ||= $outputDirPrefix . ( $countries ? "-$countries" : '' );
 
 # Consider $countries a list of countries to exclude if it begins with ! (i.
 # e. !us,jp,kr)
