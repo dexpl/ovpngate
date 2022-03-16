@@ -1,12 +1,4 @@
-Miscellaneous scripts:
+Scripts to fetch OpenVPN configuration file(s) from vpngate.net
 
-acrofind	www.acronymfinder.net CLI client
-cue2flacs	Splits flac+cue (wav+cue, iso+cue, etc.) on flac tracks
-dwhois.awk	Dummy whois client on awk
-fbbackup	Firebird database backup
-fib.pl	Fibonacci calculator. Due to its intended inoptimality it's actually a CPU stress-tester.
-freshcureit	Fresh DrWeb CureIt .iso downloader
-getvpngateconfs.sh	Fetches openvpn configs from vpngate.net for given country into given directory
-gtk3-set-theme	View/set/list avail. GTK3 themes
-powerstatus.sh	Dummy ACPI power status (on line/on battery) monitor
-vpngate.sh	Pre-configures openvpn-client@vpngate.service with what's fetched by getvpngateconfs.sh. See also systemd/system/openvpn-client@vpngate.service.d/override.conf
+TODO: proper documentation
+TODO: DNS
